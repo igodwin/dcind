@@ -2,7 +2,29 @@
 
 Alpine based image that lets you run Docker inside a Concourse task. Task must have `privileged: true` for Docker to start.
 
-![build status](https://ci.taydev.net/api/v1/teams/main/pipelines/dcind/jobs/build-and-publish/badge) [Release Pipeline](https://ci.taydev.net/teams/main/pipelines/dcind)
+## Build
+
+### Make
+Make targets `build`, `tag`, `push`, and `all` exist for convenience. `IMG_BASE` environment variable must be set and is used to construct repository string. Optional variables that may be set are `DOCKER_VERSION`, `DOCKER_COMPOSE_VERSION`, and `TAG`.
+
+#### Examples:
+```shell
+# registry.server.example.com/project-namespace/dcind:latest built and pushed
+IMG_BASE=registry.server.example.com/project-namespace make all
+```
+```shell
+# registry.server.example.com/project-namespace/dcind:0.0.1 built with Docker 26.1.2 and Docker Compose 2.27.0 and pushed
+IMG_BASE=registry.server.example.com/project-namespace DOCKER_VERSION=26.1.2 DOCKER_COMPOSE_VERSION=2.27.0 TAG=0.0.1 make all
+```
+
+### Docker CLI
+When building with Docker CLI, set the build args `DOCKER_VERSION` and `DOCKER_COMPOSE_VERSION`.
+
+#### Examples:
+```shell
+# registry.server.example.com/project-namespace/dcind:latest built with Docker 26.1.2 and Docker Compose 2.27.0
+docker build -t registry.server.example.com/project-namespace/dcind --build-arg DOCKER_VERSION=26.1.2 --build-arg DOCKER_COMPOSE_VERSION=2.27.0
+```
 
 ## Usage
 
